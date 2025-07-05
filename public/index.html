@@ -1,134 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-  <style>
-    body,
-    html {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    iframe {
-      border: none;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-  </style>
-</head>
-
-<body>
-  <script>
-    // 获取 URL 中的查询参数
-    function getQueryParams() {
-      const params = {};
-      const queryString = window.location.search.substring(1);
-      const queryArray = queryString.split('&');
-      queryArray.forEach(param => {
-        const [key, value] = param.split('=');
-        params[key] = decodeURIComponent(value);
-      });
-      return params;
-    }
-
-    function open() {
-      const queryParams = getQueryParams();
-      const hap = queryParams.hap;
-      if (hap) {
-        const iframe = document.createElement('iframe');
-        const htmlContent = `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <title>Iframe Content</title>
-            </head>
-            <body>
-                <h1></h1>
-                <script>
-                    location.href='${hap}'
-                <\/script>
-            </body>
-            </html>
-        `;
-
-        iframe.srcdoc = htmlContent;
-        document.body.appendChild(iframe);
-
-      }
-    }
-
-    function openByIntentForm() {
-      const queryParams = getQueryParams();
-      const hap = queryParams.hap;
-
-      if (hap) {
-        try {
-          const honorHap = hap.replace('hnquickapp', 'intent');
-          const intentLink = `${honorHap}#Intent;scheme=hap;category=android.intent.category.BROWSABLE;action=android.intent.action.VIEW;end`;
-
-          const iframe = document.createElement('iframe');
-          const htmlContent = `
-              <!DOCTYPE html>
-              <html lang="en">
-              <head>
-                  <meta charset="UTF-8">
-                  <title>Iframe Content</title>
-              </head>
-              <body>
-                  <h1></h1>
-                  <script>
-                      location.href='${intentLink}'
-                  <\/script>
-              </body>
-              </html>
-          `;
-
-          iframe.srcdoc = htmlContent;
-          document.body.appendChild(iframe);
-        } catch (error) {
-          console.error('Invalid HAP URL:', error);
-        }
-      }
-    }
-    openByIntentForm();
-
-    try {
-      if (typeof document.hidden !== "undefined") {
-        visibilityChange_str = "hidden";
-        visibilityChange = "visibilitychange";
-      } else if (typeof document.mozHidden !== "undefined") {
-        visibilityChange_str = "mozHidden";
-        visibilityChange = "mozvisibilitychange";
-      } else if (typeof document.msHidden !== "undefined") {
-        visibilityChange_str = "msHidden";
-        visibilityChange = "msvisibilitychange";
-      } else if (typeof document.webkitHidden !== "undefined") {
-        visibilityChange_str = "webkitHidden";
-        visibilityChange = "webkitvisibilitychange";
-      }
-      document.addEventListener(
-        visibilityChange,
-        async function () {
-          if (!document[visibilityChange_str]) {
-            openByIntentForm();
-          } else {
-
-          }
-        },
-      );
-    } catch (e) {
-      console.log(e);
-    }
-  </script>
-</body>
-
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
 </html>
