@@ -1,4 +1,4 @@
-# my-vue-project
+# payment-page
 
 ## Project setup
 ```
